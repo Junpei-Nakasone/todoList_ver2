@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>TodoList_ver2</title>
+</head>
+<body>
+    <div id="top">
+        <h1>TodoList_ver2</h1>
+        <button @click="showTodo">Show Todos</button>
+        <ul>
+            <li v-for="todo in todos">
+                {{ todo.Name }}
+            </li>
+        </ul>
+    </div>
+    <script>
+    new Vue({
+        el: "#top",
+
+        data: {
+            todos: [],
+        },
+
+        methods: {
+            showTodo: function() {
+                axios.get('/todos').then(res => {
+                    this.todos = res.data.items || [];
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+        }
+    })
+    </script>
+</body>
+</html>
