@@ -11,6 +11,11 @@
 <body>
     <div id="top">
         <h1>TodoList_ver2</h1>
+        <h2>Add New Todo</h2>
+        <form class="add-form" v-on:submit.prevent="doAdd">
+            <input type="text" ref="todo">
+            <button type="submit">Add</button>
+        </form>
         <button @click="showTodo">Show Todos</button>
         <ul>
             <li v-for="todo in todos">
@@ -34,6 +39,12 @@
                     console.log(error);
                 });
             },
+            doAdd: function(todo) {
+                
+                axios.post('/addTodo', {
+                    name: this.todo
+                });
+            }
         }
     })
     </script>
