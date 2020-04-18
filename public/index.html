@@ -14,7 +14,7 @@
         <button @click="showTodo">Show Todos</button>
         <ul>
             <li v-for="todo in todos">
-                {{ todo.Name }}
+                {{ todo.name }}
             </li>
         </ul>
     </div>
@@ -29,7 +29,7 @@
         methods: {
             showTodo: function() {
                 axios.get('/todos').then(res => {
-                    this.todos = res.data.items || [];
+                    this.todos = res.data.todos || [];
                 }).catch(function (error) {
                     console.log(error);
                 });
