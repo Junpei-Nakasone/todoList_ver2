@@ -20,7 +20,9 @@
         <ul>
             <li v-for="todo in todos">
                 {{ todo.name }}
+                <button @click="deleteTodo(todo.id)">Delete</button>
             </li>
+            
         </ul>
     </div>
     <script>
@@ -40,11 +42,16 @@
                     console.log(error);
                 });
             },
-            doAdd: function(todo) {
+            doAdd: function() {
                 
                 axios.post('/addTodo', {
                     name: this.todo
                 });
+            },
+            deleteTodo(id) {
+                axios.post('/deleteTodo', {
+                    id: id
+                })
             }
         }
     })
