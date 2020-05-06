@@ -10,30 +10,23 @@ import (
 
 // UpdateTodo returns todo
 func UpdateTodo(c echo.Context) error {
-	param := domain.RequestParam{}
+	param := domain.Todo{}
 	if err := c.Bind(&param); err != nil {
 		return err
 	}
 
 	db := db.CreateDBConnection()
 
-	data := domain.Todo{}
-	db.Table("todos").
+	updateData := &domain.UpdateData{
+		Name: param.Name,
+	}
+
+	err := db.Table("todos").
 		Where("id = ?", param.ID).
-		Find(&data).
-		UpdateColumns(data)
-
-	return c.JSON(http.StatusAccepted, "Deleted")
-}
-
-func addTodo(param domain.Todo) (err error) {
-
-	db := db.CreateDBConnection()
-
-	err = db.Create(&param).Error
+		UpdateColumns(updateData).Error
 	if err != nil {
 		return err
 	}
-	return err
 
+	return c.JSON(http.StatusAccepted, "UPdated")
 }
