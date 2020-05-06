@@ -21,7 +21,7 @@ func UpdateTodo(c echo.Context) error {
 	db.Table("todos").
 		Where("id = ?", param.ID).
 		Find(&data).
-		Delete(data)
+		UpdateColumns(data)
 
 	return c.JSON(http.StatusAccepted, "Deleted")
 }
