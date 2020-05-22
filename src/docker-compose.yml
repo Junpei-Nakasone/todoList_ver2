@@ -32,7 +32,7 @@ services:
       context: .
       dockerfile: .docker/Dockerfile
     volumes:
-      - ..:/go/src
+      - .:/go/src
     ports:
       - 8888:8888
     tty: true
