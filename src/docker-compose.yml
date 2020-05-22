@@ -1,15 +1,6 @@
 version: "3"
 
 services:
-  golang:
-    build:
-      context: ..
-      dockerfile: .docker/Dockerfile
-    volumes:
-      - ..:/go/src
-    ports:
-      - 8888:8888
-    tty: true
   mysql:
     image: mysql:latest
     container_name: go_db
@@ -22,6 +13,7 @@ services:
       MYSQL_DATABASE: go_app
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+    container_name: mysql-container
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -35,3 +27,14 @@ services:
       - 8081:80
     volumes: 
       - /sessions
+  golang:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - ..:/go/src
+    ports:
+      - 8888:8888
+    tty: true
+    # links:
+      # - mysql
