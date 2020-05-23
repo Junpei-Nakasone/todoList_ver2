@@ -33,6 +33,13 @@
             todos: [],
             todo: ""
         },
+        created: function() {
+            axios.get('/todos').then(res => {
+                this.todos = res.data.todos || [];
+            }).cat(function (error) {
+                console.log(error)
+            });
+        },
 
         methods: {
             showTodo: function() {
@@ -46,12 +53,14 @@
                 
                 axios.post('/addTodo', {
                     name: this.todo
-                });
+                })
+                reloadPage()
             },
             deleteTodo(id) {
                 axios.post('/deleteTodo', {
                     id: id
                 })
+                this.reloadPage()
             }
         }
     })
