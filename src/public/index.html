@@ -6,26 +6,111 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+     <!-- Font Awesome https://fontawesome.com/start -->
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+     <!-- Bootstrap https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>TodoList_ver2</title>
 </head>
+<style>
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: #4d639f;
+}
+
+.container {
+    max-width: 400px;
+}
+
+input[type=text],
+input[type=text]:focus {
+    color: #9abca4;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+}
+.todos li {
+    background: #2c4b79;
+}
+
+.delete {
+    cursor: pointer;
+    color: orange;
+}
+
+.filtered {
+    display : none !important;
+}
+    
+    
+    </style>
+    
 <body>
     <div id="top">
-        <h1>TodoList_ver2</h1>
-        <h2>Add New Todo</h2>
-        <form class="add-form" v-on:submit.prevent="doAdd">
-            <input type="text" v-model="todo">
-            <button type="submit">Add</button>
-        </form>
-        <button @click="showTodo">Show Todos</button>
-        <ul>
-            <li v-for="todo in todos">
-                {{ todo.name }}
-                <button @click="deleteTodo(todo.id)">Delete</button>
-            </li>
+        <div class="container">
+            <header class="text-center text-light my-4">
+                    <h1 class="mb-4">TodoList_ver2</h1>
+                    <form class="search">
+                            <input type="text" class="form-control m-auto" name="search" placeholder="キーワードで探す">
+                        </form>
+            </header>
+
+            <ul v-for="todo in todos" class="list-group-item d-flex justify-content-between align-items-center todos">
             
-        </ul>
-    </div>
+                    {{ todo.name }}
+                    <button class="far fa-trash-al
+" @click="editTodo(todo.id)">Edit</button>
+                    <i class="far fa-trash-alt delete"></i>
+            </ul>
+
+            <form class="add text-center my-4" v-on:submit.prevent="doAdd" >
+                <label class="text-light">タスクを追加する</label>
+                <input type="text" class="form-control m-auto" name="add" placeholder="タスクを追加する"  v-model="todo">
+            </form>
+            </div>
+
+
+            <hr>
+            <hr>
+                <!-- <h1 class="title">TodoList_ver2</h1>
+                
+                    <p v-for="todo in todos">
+                        {{ todo.name }}
+                        <button @click="editTodo(todo.id)">Edit</button>
+                        <button @click="deleteTodo(todo.id)">Delete</button>
+                    </p>
+                <h2>Add New Todo</h2>
+                <form v-on:submit.prevent="doAdd">
+                    <input type="text" v-model="todo">
+                    <button type="submit">Add</button>
+                </form> -->
+
+
+        </div>
+        
+        
+
     <script>
+        const search = document.querySelector('.search input');
+
+
+const filterTasks = (term) => {
+
+    Array.from(list.children)
+        // フィルタ条件
+        .filter((todo) => !todo.textContent.toLowerCase().includes(term))
+        .forEach((todo) => todo.classList.add('filtered'));
+
+    Array.from(list.children)
+        .filter((todo) => todo.textContent.toLowerCase().includes(term))
+        .forEach((todo) => todo.classList.remove('filtered'));
+};
+
+search.addEventListener('keyup', () => {
+    // 空白削除かつ、小文字に変換(大文字・小文字の区別をなくす)
+    const term = search.value.trim().toLowerCase();
+    filterTasks(term);
+});
     new Vue({
         el: "#top",
 
@@ -54,14 +139,27 @@
                 axios.post('/addTodo', {
                     name: this.todo
                 })
-                reloadPage()
+                this.reloadPage()
+            },
+            editTodo(id) {
+                var newTodo = window.prompt("何に変更しますか？");
+                axios.post('/updateTodo', {
+                    id: id,
+                    name: newTodo
+                })
+                this.reloadPage()
             },
             deleteTodo(id) {
+                var check = confirm('本当に削除しますか？');
+                if (check === true)
                 axios.post('/deleteTodo', {
                     id: id
                 })
                 this.reloadPage()
-            }
+            },
+            reloadPage() {
+            window.location.reload()
+        }
         }
     })
     </script>

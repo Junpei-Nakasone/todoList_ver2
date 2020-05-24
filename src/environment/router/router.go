@@ -16,7 +16,7 @@ func NewRouter() *echo.Echo {
 	e.GET("/todos", api001.ShowTodos)
 	e.POST("/addTodo", api002.AddTodo)
 	e.POST("/deleteTodo", api003.DeleteTodo)
-	e.POST("updateTodo", api004.UpdateTodo)
+	e.POST("/updateTodo", api004.UpdateTodo)
 
 	return e
 }
