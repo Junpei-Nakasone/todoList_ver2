@@ -11,10 +11,3 @@ RUN apk update && \
 ENV GO111MODULE=on 
 ENV CGO_ENABLED=0
 ENV TZ = Asia/Tokyo
-
-# COPY ../server/go.mod /go/src/go.mod
-# COPY ../server/go.sum /go/src/go.sum
-
-# RUN go mod download
-
-CMD ["go", "run", "main.go"]
