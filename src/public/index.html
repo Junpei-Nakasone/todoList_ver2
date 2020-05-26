@@ -43,6 +43,10 @@
 		.edit {
 		    margin-right: 10px;
 		}
+
+        .add {
+            margin-bottom: 10px;
+        }
 </style>
   <body>
     <div id="top">
@@ -54,9 +58,11 @@
           <i class="far fa-trash-alt delete float-right" @click="deleteTodo(todo.id)"></i>
           <button class="far edit float-right" @click="editTodo(todo.id)">Edit</button>
         </ul>
-        <form class="add text-center my-4" v-on:submit.prevent="doAdd">
-          <label class="text-light">タスクを追加する</label>
+        <form class="add text-center my-4" >
+            <button type="button" class="btn btn-outline-light add" @click="doAdd">タスクを追加する</button>
+          <!-- <label class="text-light">タスクを追加する</label> -->
           <input type="text" class="form-control m-auto" name="add" placeholder="Add new task" v-model="todo">
+          
         </form>
       </div>
       <hr>
