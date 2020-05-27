@@ -59,8 +59,7 @@
           <button class="far edit float-right" @click="editTodo(todo.id)">Edit</button>
         </ul>
         <form class="add text-center my-4" >
-            <button type="button" class="btn btn-outline-light add" @click="doAdd">タスクを追加する</button>
-          <!-- <label class="text-light">タスクを追加する</label> -->
+            <button type="button" class="btn btn-outline-light add" @click="doAdd" v-bind:disabled="!isValid">タスクを追加する</button>
           <input type="text" class="form-control m-auto" name="add" placeholder="Add new task" v-model="todo">
           
         </form>
@@ -82,6 +81,13 @@
 				                console.log(error)
 				            });
 				        },
+                        computed: {
+                            isValid() {
+                                if (this.todo != '') {
+                                    return true
+                                }
+                            }
+                        },
 				
 				        methods: {
 				            showTodo: function() {
