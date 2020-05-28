@@ -5,6 +5,7 @@ import (
 
 	"github.com/todoList_ver2/environment/db"
 	"github.com/todoList_ver2/environment/router"
+	"github.com/todoList_ver2/test/util"
 )
 
 func TestHandler_api_001(t *testing.T) {
@@ -12,5 +13,5 @@ func TestHandler_api_001(t *testing.T) {
 	defer db.Close()
 
 	e := router.NewRouter()
-	BasicCheck(t, "/todos", e, Get)
+	util.BasicCheck(t, "/todos", e, util.Get)
 }
